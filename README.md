@@ -1,5 +1,7 @@
 # StructuralCodes
 
+**This fork is a work in progress to add NBR 6118 support.**
+
 *A Python library for structural engineering calculations.*
 
 [![PyPI version](https://badge.fury.io/py/structuralcodes.svg)](https://badge.fury.io/py/structuralcodes)

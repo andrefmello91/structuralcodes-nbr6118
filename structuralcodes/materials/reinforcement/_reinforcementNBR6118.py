@@ -32,6 +32,7 @@ class ReinforcementNBR6118(Reinforcement):
         initial_strain: t.Optional[float] = None,
         initial_stress: t.Optional[float] = None,
         strain_compatibility: t.Optional[bool] = None,
+        **kwargs,
     ):
         """Initializes a new instance of Reinforcement for MC2010.
 
@@ -81,7 +82,6 @@ class ReinforcementNBR6118(Reinforcement):
             initial_stress=initial_stress,
             strain_compatibility=strain_compatibility,
         )
-        self._gamma_eps = gamma_eps
         self._constitutive_law = (
             constitutive_law
             if isinstance(constitutive_law, ConstitutiveLaw)

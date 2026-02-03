@@ -2,7 +2,7 @@
 
 import typing as t
 
-from ...codes import nbr6118
+from structuralcodes.codes import nbr6118
 
 from ..constitutive_laws import ConstitutiveLaw, create_constitutive_law
 from ._reinforcement import Reinforcement

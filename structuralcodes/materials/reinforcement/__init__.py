@@ -8,6 +8,7 @@ from ._reinforcement import Reinforcement
 from ._reinforcementEC2_2004 import ReinforcementEC2_2004
 from ._reinforcementEC2_2023 import ReinforcementEC2_2023
 from ._reinforcementMC2010 import ReinforcementMC2010
+from ._reinforcementNBR6118 import ReinforcementNBR6118
 
 __all__ = [
     'create_reinforcement',
@@ -15,12 +16,14 @@ __all__ = [
     'ReinforcementMC2010',
     'ReinforcementEC2_2004',
     'ReinforcementEC2_2023',
+    'ReinforcementNBR6118',
 ]
 
 REINFORCEMENTS: t.Dict[str, Reinforcement] = {
     'fib Model Code 2010': ReinforcementMC2010,
     'EUROCODE 2 1992-1-1:2004': ReinforcementEC2_2004,
     'EUROCODE 2 1992-1-1:2023': ReinforcementEC2_2023,
+    'ABNT NBR 6118:2023': ReinforcementNBR6118,
 }
 
 

@@ -23,6 +23,6 @@ from ._concrete_material_properties import(
 
 from ._reinforcement_material_properties import fyd
 
-__title__: str = 'ABNT NBR 6118'
+__title__: str = 'ABNT NBR 6118:2023'
 __year__: str = '2023'
 __materials__: t.Tuple[str] = ('concrete', 'reinforcement')

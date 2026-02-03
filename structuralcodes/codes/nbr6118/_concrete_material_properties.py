@@ -378,7 +378,7 @@ def eps_c1(fck: float) -> float:
         float: The strain at maximum compressive stress, absolute value, no
         unit.
     """
-    return min(0.7 * fcm(fck) ** 0.31, 2.8e-3)
+    return min(0.7e-3 * fcm(fck) ** 0.31, 2.8e-3)
 
 
 def eps_cu1(fck: float) -> float:

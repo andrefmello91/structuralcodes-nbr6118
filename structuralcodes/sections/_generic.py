@@ -21,7 +21,7 @@ from structuralcodes.geometry import (
 from structuralcodes.materials.basic import ElasticMaterial
 
 from ..core.base import Section, SectionCalculator
-from ..core.errors import NoConvergenceWarning
+from ..core.errors import InformationWarning, NoConvergenceWarning
 from .section_integrators import SectionIntegrator, integrator_factory
 
 
@@ -149,10 +149,11 @@ class GenericSectionCalculator(SectionCalculator):
         if isinstance(polygon, MultiPolygon):
             gp.perimeter = 0.0
             warnings.warn(
-                'Perimiter computation for a multi polygon is not defined.'
+                'Perimiter computation for a multi polygon is not defined.',
+                category=InformationWarning,
             )
-
-        gp.perimeter = polygon.exterior.length
+        else:
+            gp.perimeter = polygon.exterior.length
 
         # Computation of area: this is taken directly from shapely
         gp.area = self.section.geometry.area

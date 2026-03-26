@@ -1773,7 +1773,7 @@ class GenericSectionCalculator(SectionCalculator):
         geom = self.section.geometry
 
         # Collect loads in a numpy array
-        loads = np.array([n, my, mz])
+        loads = np.array([n, my, mz], dtype=float)
 
         # Compute initial tangent stiffness matrix
         stiffness_tangent, integration_data = (
@@ -1790,9 +1790,14 @@ class GenericSectionCalculator(SectionCalculator):
 
         # Calculate strain plane with Newton Rhapson Iterative method
         num_iter = 0
-        strain = np.zeros(3, dtype=float)
-        residual = np.zeros(3, dtype=float)
         converged = False
+        strain = np.zeros(3, dtype=float)
+
+        # Calculate the initial response and residuals. Note that the initial
+        # residual might be different from the applied loads if any initial
+        # strain is present
+        response = self.integrate_strain_profile(strain=strain).asarray()
+        residual = loads - response
 
         residual_history = []
         strain_history = []
@@ -1809,14 +1814,6 @@ class GenericSectionCalculator(SectionCalculator):
             if num_iter > max_iter:
                 break
 
-            # Calculate response and residuals
-            response = self.integrate_strain_profile(strain=strain).asarray()
-            residual = loads - response
-
-            # Append to history variables
-            residual_history.append(residual.copy())
-            strain_history.append(strain.copy())
-
             if initial:
                 # Solve using the decomposed matrix
                 delta_strain = lu_solve((lu, piv), residual)
@@ -1829,13 +1826,21 @@ class GenericSectionCalculator(SectionCalculator):
                 # Solve using the current tangent stiffness
                 delta_strain = np.linalg.solve(stiffness_tangent, residual)
 
+            # Update the strain
+            strain += delta_strain
+
+            # Calculate response and residuals
+            response = self.integrate_strain_profile(strain=strain).asarray()
+            residual = loads - response
+
+            # Append to history variables
+            residual_history.append(residual.copy())
+            strain_history.append(strain.copy())
+
             # Check for convergence:
             if np.linalg.norm(delta_strain) < tol:
                 converged = True
                 break
-
-            # Update the strain
-            strain += delta_strain
 
             num_iter += 1
 
